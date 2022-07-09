@@ -1,20 +1,19 @@
 # Brute Force 로 붙어있는 숫자 간 총합이 제일 큰 수를 리턴
 
 def sublist_max(profits):
-    max_profit = profits[0]  # 최대 수익
+
+    biggest_sum = profits[0]
 
     for i in range(len(profits)):
-        # 인덱스 i부터 j까지 수익의 합을 보관하는 변수
-        total = 0
-
         for j in range(i, len(profits)):
-            # i부터 j까지 수익의 합을 계산
-            total += profits[j]
+            temp_sum = 0
+            for k in range(i, j+1):
+                temp_sum += profits[k]
+            if biggest_sum < temp_sum:
+                biggest_sum = temp_sum
+            # print('i : {}, j : {}, sum : {}'.format(i, j,temp_sum))
 
-            # i부터 j까지 수익의 합이 최대 수익이라면, max_profit 업데이트
-            max_profit = max(max_profit, total)
-
-    return max_profit
+    return biggest_sum
 
 
 # 테스트
