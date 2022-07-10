@@ -1,0 +1,8 @@
+vertical 정렬
+
+기준이 되는 배경에 자신의 height값을 line-height 로 설정
+
+중앙으로 올 요소에 
+display: inline-block;
+vertical-align: middle;
+line-height: normal;

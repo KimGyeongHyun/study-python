@@ -1,0 +1,284 @@
+working directory
+ 작업하는 현재 환경
+
+staging area
+ 커밋할 파일들을 임시 저장
+
+레포지토리 (.git directory)
+ 프로젝트 버전별로 저장되어 있는 곳
+
+commit
+ 레포지토리에 버전 저장하는 행위
+
+커밋을 하게 되면 staging area -> repository
+
+untracked  unmodified  modified  staged
+unmodified : 바뀐 게 없는 상태 (커밋 후 상태)
+modified : 수정된 상태
+
+깃허브
+ 레포지토리 외부저장소 서비스
+ 리모트 레포지토리
+
+깃허브 새로운 프로젝트 올리기
+1. 깃허브에 새로운 repo 만들기
+2. 깃허브 밑에 있는 명령어로 깃 프로젝트 올림
+
+깃허브 프로젝트 가져오기
+1. clone
+2. 부모 디렉토리에서 git clone [clone 주소]
+
+README.md
+markdown 형식 - 예쁘게 만들 수 있음
+
+HEAD 어떤 커밋 하나 가리킴
+HEAD 에 따라 working directory 내용 달라짐
+HEAD 는 보통 branch 가리킴
+
+branch 
+ 하나의 코드 관리 흐름
+ 커밋을 가리키는 존재
+
+HEAD -> branch -> commit
+
+.gitignore
+깃허브는 특정 언어에 대한 이그노어를 따로 설정할 수 있음
+python 을 선택한다면 python에서 필요없는 것들은 무시함
+깃허브 외 링크 : https://www.gitignore.io/
+
+-------------------------------------------------
+
+cd MathTool/
+cd ..
+
+git init
+ 비어있는 리포지토리 생성
+
+git config user.name "~"
+git config user.email "~"
+
+git push -u origin [branch name]
+ -u (--set-upstream)
+  로컬 레포지토리 브랜치가
+  리모트 리포지토리 (origin) 브랜치 tracking 하도록 설정
+  
+  만약 이 옵션이 없을 경우 git push 할 때마다
+  git push origin master:master 
+  를 적어야 함
+  (pull 도 마찬가지)
+
+git help [명령어]
+
+------------------------------------------------------
+
+git status
+
+cat [파일이름]
+ 파일 내용 출력
+
+git log
+ 커밋 모두 출력
+ 오래된 커밋이 아래에 있음
+ 위로 갈 수록 최신
+ 각 커밋은 고유의 ID 존재
+
+git log --pretty=oneline
+ 커밋 한 줄씩 출력
+ --all 모든 브랜치 출력
+ --graph 커밋과 브랜치 관계 직관적으로 표현
+
+git config alias.history 'log --pretty=oneline'
+ log --pretty=oneline 을 history 로 줄여 사용
+
+git show [commit ID]
+ 해당 커밋과 이전 커밋을 비교하여 보여줌
+
+git diff [이전 커밋 ID] [이후 커밋 ID]
+ 두 커밋 간의 차이 보여줌
+
+git tag [tag name] [commit ID]
+ 해당 커밋에 태그 부여
+ 태그는 commit ID 대신 사용 가능
+
+git branch
+ 브랜치 확인
+
+git branch [branch name]
+ 브랜치 생성
+
+git checkout [branch name]
+ 해당 브랜치로 이동
+ [commit ID] 넣으면 커밋으로 직접 접근 가능
+
+git branch -d [branch name]
+ 해당 브랜치 삭제
+
+git checkout -b [branch name]
+ 브랜치 생성과 동시에 이동
+
+git fetch
+ merge 대신 그냥 가져옴
+ 리모트 레포 가져와서 살펴본 후 머지하기 위해 사용
+
+git blame [file name]
+ 해당 파일의 커밋 리스트 출력
+
+git show [blame list 에 나온 ID]
+ 해당 커밋을 누가 했는지 보여줌
+
+git reflog
+ 해드가 가리켜왔던 기록 모두 출력
+
+----------------------------------------------------
+
+git add [파일이름]
+git add .
+
+git push
+git pull
+
+git commit -m "~"
+ -m : message
+  최대한 구체적으로 작성
+
+git commit
+ 이후에 나오는 창 다루기
+ :wq 그대로 커밋
+ i 커밋 메시지 수정
+  위에 제목, 2줄, 상세 순서
+
+git commit --amend
+ 제일 최근 커밋을 수정
+ staging area 에 수정된 내용으로 교체
+
+git reset [파일이름]
+ staging area 에서 파일 제거
+ working directory에는 그대로 남아있음
+
+git reset (옵션) [가고 싶은 커밋 ID]
+ HEAD가 해당 커밋으로 감
+ --hard : working directory, staging area 모두 바뀜
+ --mixed : staging area 만 바뀜
+ --soft : HEAD 만 바뀜
+ 가고 싶은 커밋 대신 쓸 수 있는 명령어
+  HEAD^ : 바로 이전 커밋
+  HEAD~n : n단계 전에 있는 커밋
+
+git reset (옵션) HEAD@{n}
+ HEAD 기준으로 n번째 전으로 HEAD 옮김
+ git reflog 와 함께 사용
+
+git merge [branch name]
+ 현재 브랜치에 해당 브랜치를 합침
+ conflict 발생 가능
+ working space 에서 conflict 부분 표시해줌
+
+ base : 두 브랜치의 분기점
+ base 기준 두 브랜치 중 변경 사항이 있는 것을 적용
+ (즉 하나는 base 와 같고 나머지는 base와 다를 때
+ 나머지의 내용을 적용. 내용이 없어지는 것도 마찬가지)
+ 내용이 다를 때 conflict 발생
+
+git merge --abort
+ 머지 하기 이전으로 돌아감
+
+git rebase [another branch name]
+ 현재 브랜치에 해당 브랜치를 합침
+ 머지와 역할은 같지만 하나의 브랜치로 취급
+ 머지와 다르게 커밋하지 않음
+ 
+ working space에서 수정 후	(이후 커밋 X)
+ git rebase --continue  명령어 사용
+
+git revert [commit ID]
+ 해당 커밋 되돌아감
+
+git revert [이전 커밋]..[이후 커밋]
+ 이전 커밋 바로 뒤의 커밋 부터 이후 커밋까지 되돌아감
+ 하나씩 revert 됨
+ 
+git stash
+ working directory 에서 작업하던 내용 stack 에 저장
+ 이 때 working space 는 최신 커밋 상태로 돌아감
+
+git stash list
+ stack 출력
+
+git stash apply
+ stack 내용 working space 에 가져옴
+ 불필요한 커밋을 사용하지 않아도 됨
+
+git stash apply stash@{n}
+ stack list 에서 필요한 stash 뽑아서 가져옴
+
+git stash drop stash@{n}
+ stash list 내용 제거
+ 디폴트는 바로 이전 stack
+
+git stash pop stash@{n}
+ 해당 stash 가져온 후 제거
+
+git cherry-pick [commit ID]
+ 자신이 원하는 작업이 들어있는 커밋들만 가져와서
+ 현재 브랜치에 추가
+
+-----------------------------------------------------
+
+-잘못 커밋했을 경우
+1. working space 에서 수정
+2. git add .
+3. git commit --amend
+4. 커밋 메시지 수정 후 커밋
+이전 커밋 없어지고 커밋 ID 바뀜
+
+-이전 커밋으로 돌아가 branch 만들기
+1. git checkout [commit ID]
+2. git branch [branch name]
+3. git checkout [branch name]
+4. commit
+
+-conflict 해결
+1. working space 에서 conflict 발생 부분 수정
+2. git add .
+3. git commit
+4. conflict 해결하고 커밋하면 제목 자동 생성
+
+-로컬과 리모트 간 충돌 시
+1. git pull	(conflict)
+2. conflict 해결	(모든 내용이 필요하면 모두 넣기)
+3. 리모트와 merge	(커밋 디폴트에 제목 자동 생성)
+4. git push
+
+-리모트 레포지토리 확인 후 머지하기
+1. git fetch
+2. git diff [branch name] [remote repo branch name]
+ remote repo branch name = origin/[branch name]
+해결 방법 2가지
+ 1. 개발자 연락해서 수정 부탁
+ 2. 직접 해결
+(직접 해결할 경우)
+3. git merge [remote repo branch name]
+4. 수정 후 commit
+5. git push
+
+-리모트 레포지토리 커밋 취소하기
+1. git revert [commit ID]	(commit)
+2. git push
+
+-급하게 메인에서 수정할 일이 생겼을 때
+1. git stash
+2. git checkout [main branch]
+3. working space 수정, add, commit
+
+4. 원래 branch 로 돌아와서
+5. git stash apply
+
+-잘못된 브랜치에서 작업하고 있었을 때 (커밋은 안 함)
+1. git stash
+2. 다른 브랜치로 이동
+3. git stash apply stash@{n}
+4. conflict 해결
+
+-여러 커밋을 하나의 커밋으로 만들기
+1. git reset --soft [하나로 합치고 싶은 커밋 전 커밋 ID]
+2. add, commit
