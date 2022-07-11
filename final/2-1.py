@@ -1,29 +1,27 @@
 # Divide and Conquer 로 list 안 붙어있는 숫자 합 제일 큰 것 리턴
 
-def sublist_max_user(profits, start, end):
-
-    biggest_sum = profits[0]
-
-    if len(profits) == 1:
-        return biggest_sum
-    i, j = 0, 0
-
-    if len(profits) == 2:
-        mid = len(profits)//2
-        while i < len()
-
-        max(sublist_max_user(profits, start, mid),
-            sublist_max_user(profits, mid+1, end),
-            )
-
-
-
 def sublist_max(profits, start, end):
 
+    if start == end:            # 길이가 0이라면
+        return profits[start]   # 그 값을 리턴한다
 
+    # 중앙 index 를 관통하는 총합의 제일 큰 수를 구한다
+    mid = (start + end) // 2        # 중앙 index
+    biggest_sum = profits[start]    # 중앙 index 를 관통하는 총합의 제일 큰 수 초기화
+    for i in range(start, mid+1):               # 왼쪽 index
+        left_sum, left_right_sum = 0, 0             # 왼쪽 ~ 중앙 총합, 왼쪽 ~ 오른쪽 총합
+        for l in range(i, mid+1):               # 왼쪽 부분 총합 먼저 처리
+            left_sum += profits[l]                  # 왼쪽 ~ 중앙 총합 구함
+            left_right_sum = left_sum               # 해당 값으로 왼쪽 ~ 오른쪽 총합 변수 초기화
+        for j in range(mid+1, end+1):           # 오른쪽 index
 
+            left_right_sum += profits[j]                        # 왼쪽 ~ 중앙 총합 에서 오른쪽 값을 하나씩 더함
+            biggest_sum = max(biggest_sum, left_right_sum)      # 더한 값이 더 크다면 해당 값으로 갱신
 
-
+    # 왼쪽 최댓값, 오른쪽 최댓값, 중앙을 관통하는 최댓값 중 제일 큰 수를 리턴
+    return max(sublist_max(profits, start, mid),
+               sublist_max(profits, mid+1, end),
+               biggest_sum)
 
 
 # 테스트
