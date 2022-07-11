@@ -1,5 +1,6 @@
 # 2-1 함수 기능과 동일
 # Big-O -> O(n) 이 되도록 풀기
+# 문제점 : 양수가 하나도 없으면 구동 불가
 
 def sublist_max(profits):
 
