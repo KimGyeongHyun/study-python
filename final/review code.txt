@@ -1,0 +1,3 @@
+in 은
+list, tuple에서 O(n)
+set, dictionary에서 Average O(1), Worst O(n)
