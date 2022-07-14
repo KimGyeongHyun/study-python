@@ -1,51 +1,37 @@
-# 담긴 빗물의 양을 리턴
-# 시간 복잡도 O(n^2) 보다 적게, 상황에 따라 공간 복잡도 사용
-
 def trapping_rain(buildings):
+    # 총 담기는 빗물의 양을 변수에 저장
+    total_height = 0
+    left_list = [0]     # 왼쪽 제일 큰 빌딩 높이
+    right_list = [0]    # 오른쪽 제일 큰 빌딩 높이
 
-    peak_list = []      # 봉우리 index
-    water_amount = 0    # 담긴 빗물의 양
+    for i in range(1, len(buildings)-1):
 
-    # 봉우리 index 구함
-    for i in range(len(buildings)):
+        if left_list[i-1] <= buildings[i-1]:
+            left_list.append(buildings[i-1])
+        else:
+            left_list.append(left_list[i-1])
 
-        if i == 0 and buildings[0] > buildings[1]:  # 첫번째
-            peak_list.append(i)
+        rev_i = len(buildings)-1-i
+        if right_list[i-1] <= buildings[rev_i+1]:
+            right_list.append(buildings[rev_i+1])
+        else:
+            right_list.append(right_list[i-1])
 
-        if i != 0 and i != len(buildings)-1:    # 가운데
-            if buildings[i-1] < buildings[i] > buildings[i+1]:
-                peak_list.append(i)
+    # ([0, 3, 3, 3, 3], [0, 4, 4, 4, 4])
+    # ([0, 0, 1, 1, 2, 2, 2, 2, 3, 3, 3], [0, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3])
 
-        if i == len(buildings)-1 and buildings[len(buildings)-2] < buildings[len(buildings)-1]:     # 마지막
-            peak_list.append(i)
+    # 리스트의 각 인덱스을 돌면서 해당 칸에 담기는 빗물의 양을 구한다
+    # 0번 인덱스와 마지막 인덱스는 볼 필요 없다
+    for i in range(1, len(buildings) - 1):
 
-    peak_peak_list = []     # 봉우리의 봉우리 index
+        # 현재 인덱스에 빗물이 담길 수 있는 높이
+        upper_bound = min(left_list[i], right_list[-i])
 
-    # 봉우리의 봉우리 index 구함
-    for i in range(len(peak_list)):
+        # 현재 인덱스에 담기는 빗물의 양을 계산
+        # 만약 upper_bound가 현재 인덱스 건물보다 높지 않다면, 현재 인덱스에 담기는 빗물은 0
+        total_height += max(0, upper_bound - buildings[i])
 
-        if i == 0 and buildings[peak_list[i]] > buildings[peak_list[i+1]]:  # 첫번째
-            peak_peak_list.append(i)
-
-        if i != 0 and i != len(peak_list)-1:    # 가운데
-            if buildings[peak_list[i-1]] < buildings[peak_list[i]] > buildings[peak_list[i+1]]:
-                peak_peak_list.append(i)
-
-        # 마지막
-        if i == len(peak_list)-1 and buildings[peak_list[len(peak_list)-2]] < buildings[peak_list[len(peak_list)-1]]:
-            peak_peak_list.append(i)
-
-    # 봉우리의 봉우리 사이 봉우리 제거
-    for i in range(len(peak_peak_list)-1):
-        del peak_list[peak_peak_list[i]+1:peak_peak_list[i+1]]
-
-    # 봉우리 사이 물의 양 계산
-    for i in range(len(peak_list)-1):
-        water_amount += min(buildings[peak_list[i]], buildings[peak_list[i + 1]]) * (peak_list[i+1] - peak_list[i] - 1)
-        for j in range(peak_list[i]+1, peak_list[i+1]):
-            water_amount -= buildings[j]
-
-    return water_amount
+    return total_height
 
 
 # 테스트
