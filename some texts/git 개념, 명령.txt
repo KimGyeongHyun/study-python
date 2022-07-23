@@ -75,6 +75,8 @@ git status
 
 cat [파일이름]
  파일 내용 출력
+ 파일이름에 띄어쓰기가 있는 경우 ''사용
+ ex) cat 'data structure'/'자료 구조.txt'
 
 git log
  커밋 모두 출력
