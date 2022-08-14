@@ -25,6 +25,33 @@ class BinarySearchTree:
     def find_min(node):
         """(부분)이진 탐색 트리의 가장 작은 노드 리턴"""
         # 코드를 쓰세요
+        if node.left_child is None:
+            return node
+        if node.right_child is None:
+            return BinarySearchTree.find_min(node.left_child)
+            
+        left = BinarySearchTree.find_min(node.left_child)
+        right = BinarySearchTree.find_min(node.right_child)
+        
+        if left.data < right.data:
+            return left
+        else:
+            return right
+            
+        # 정의를 잘 못 이해하고 풂
+        # 삽입 과정에서 더 작은 수는 오른쪽으로 갈 수 없음
+        # 즉 제일 작은 수는 제일 왼쪽 아래 자식 노드임
+                        
+        # temp = node  # 도우미 변수. 파라미터 node로 초기화
+
+#    # temp가 node를 뿌리로 갖는 부분 트리에서 가장 작은 노드일 때까지 왼쪽 자식 노드로 간다
+#    while temp.left_child is not None:
+#        temp = temp.left_child      
+
+#    return temp
+            
+        
+        
 
 
     def search(self, data):
@@ -102,4 +129,4 @@ bst.insert(4)
 bst.insert(14)
 
 print(bst.find_min(bst.root).data)  # 전체 이진 탐색 트리에서 가장 작은 노드
-print(bst.find_min(bst.root.right_child).data)  # root 노드의 오른쪽 부분 트리에서 가장 작은 노드
+print(bst.find_min(bst.root.right_child).data)  # root 노드의 오른쪽 부분 트리에서 가장 작은 노드''
